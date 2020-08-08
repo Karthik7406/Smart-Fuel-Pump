@@ -15,17 +15,18 @@ LARGE_FONT = ("Helvetica", 25, 'bold italic')
 
 def save_database(dictionary):
     try:
-        f = open('database.txt', 'w')
+        f1 = open('database.txt', 'w')
         for x, y in dictionary.items():
-            f.write(f'{x} {y[0]} {y[1]} \n')
+            #f1.write(f'{x} {y[0]} {y[1]} \n')
+            f1.write('{0} {1} {2} \n'.format(x, y[0], y[1]))
 
     finally:
-        f.close()
+        f1.close()
 
 
 def load_database():
     d = {}
-    with open("database.txt") as f:
+    with open("/home/pi/Desktop/final/Smart-Fuel-Pump/database..txt") as f:
         for line in f:
             key, val, amount = line.split()
             d[key] = [val, amount]
@@ -140,6 +141,7 @@ def create_user(name, password, amount):
 #
 
 # ===================Adding new user to the database======================
+
 class Add_new_user(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -548,7 +550,7 @@ class PetrolFrame(tk.Frame):
     def one_clicked(self):
         self.entry_label.insert(16, "1")
 
-    def two_clicked(self[]):
+    def two_clicked(self):
         self.entry_label.insert(16, "2")
 
     def three_clicked(self):
