@@ -7,6 +7,8 @@ from tkinter import ttk
 from tkinter import messagebox
 import time
 
+import hardware_control
+
 LARGE_FONT = ("Helvetica", 25, 'bold italic')
 
 
@@ -26,7 +28,7 @@ def save_database(dictionary):
 
 def load_database():
     d = {}
-    with open("/home/pi/Desktop/final/Smart-Fuel-Pump/database..txt") as f:
+    with open("/home/pi/Desktop/final/Smart-Fuel-Pump/database.txt") as f:
         for line in f:
             key, val, amount = line.split()
             d[key] = [val, amount]
@@ -426,6 +428,10 @@ def fill_petrol(widget):
                                             font=('Helvetica', 20, 'bold italic'))
             widget.success_label.place(x=150, y=250)
             transaction = True
+            
+            #fill the petrol
+            #hardware_control.fill_petrol(entered_amount, 75 )
+            
 
             DATABASE[current_user_name][1] = user_existing_amount - entered_amount
             save_database(DATABASE)
@@ -435,7 +441,7 @@ def fill_petrol(widget):
             widget.put_pipe_label.place(x=10, y=300)
 
             widget.petrol_fill_button = tk.Button(widget, text='FILL', fg='black', bg='#12de89',
-                                                  font=('Helvetica', 30, 'bold italic'))
+                                                  font=('Helvetica', 30, 'bold italic'), command= lambda: hardware_control.fill_petrol(entered_amount, 75 ))
             widget.petrol_fill_button.place(x=50, y=370)
 
     except ValueError:
@@ -462,6 +468,14 @@ def fill_deisel(widget):
             widget.failure_label.place(x=150, y=250)
         else:
             print('Transaction Successful')
+            
+            DATABASE[current_user_name][1] = user_existing_amount - entered_amount
+            save_database(DATABASE)
+            
+            
+            # fill deisel
+            #hardware_control.fill_deisel(entered_amount, 70)
+            
             widget.success_label = tk.Label(widget, text='Transaction Successful', fg='black', bg='green',
                                             font=('Helvetica', 20, 'bold italic'))
             widget.success_label.place(x=150, y=250)
@@ -470,8 +484,9 @@ def fill_deisel(widget):
             widget.put_pipe_label.place(x=10, y=300)
 
             widget.petrol_fill_button = tk.Button(widget, text='FILL', fg='black', bg='#12de89',
-                                                  font=('Helvetica', 30, 'bold italic'))
+                                                  font=('Helvetica', 30, 'bold italic'), command = lambda: hardware_control.fill_deisel(entered_amount, 65))
             widget.petrol_fill_button.place(x=50, y=370)
+            
     except ValueError:
         widget.enter_amount_label = tk.Label(widget, text='Please Enter the amount', fg='black', bg='red',
                                              font=('Helvetica', 20, 'bold italic'))
